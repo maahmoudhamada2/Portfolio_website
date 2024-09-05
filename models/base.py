@@ -15,14 +15,31 @@ class BaseModel:
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
     categories = Column(String(20), nullable=False, default='uncategorized')
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """Constructor method"""
-        self.id = str(uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
-        self.categories = "uncategorized"
+        if kwargs:
+            pass
+        else:
+            self.id = str(uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
+            self.categories = "uncategorized"
 
     def __str__(self):
         """Str method for debugging purpose"""
         return "[{}] ({}) {}".\
             format(self.__class__.__name__, self.id, self.__dict__)
+     
+    def save(self):
+        from models import storage
+        storage.addingRecord(self)
+        storage.savingRecord()
+        
+    def to_dict(self):
+        outDict = self.__dict__.copy()
+        if '_sa_instance_state' in outDict:
+            outDict.pop('_sa_instance_state')
+        outDict.update({"__class__": self.__class__.__name__})
+        outDict.update({"created_at": datetime.isoformat(outDict['created_at'])})
+        outDict.update({"updated_at": datetime.isoformat(outDict['updated_at'])})
+        return outDict

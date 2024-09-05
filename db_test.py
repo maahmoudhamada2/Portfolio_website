@@ -11,11 +11,11 @@ bl.intro = "Intro to frontend is...."
 bl.article = "Front end is lorem....."
 bl.conclusion = "The conclusion is....."
 
-storage.addingRecord(bl)
+bl.save()
 
 p1 = Project()
 p1.title = "Simple shell"
 p1.description = "Description 1"
 p1.technologies_used = "HTML"
-storage.addingRecord(p1)
-storage.savingRecord()
+
+p1.save()
