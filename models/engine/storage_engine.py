@@ -9,7 +9,7 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 class DBStorage:
     __engine = None
     __session = None
-    __db_url = 'mysql+mysqldb://root:root@localhost:5000/portfolio_website'
+    __db_url = 'mysql+mysqldb://root:root@localhost:5000/PFSITE'
 
     @staticmethod
     def recordsFormating(records, flag):
@@ -59,3 +59,8 @@ class DBStorage:
                 key = "{}.{}".format(k, id)
         if key in records:
             return records.get(key)
+
+    def delRecord(self, record):
+        self.__session().delete(record)
+        self.savingRecord()
+

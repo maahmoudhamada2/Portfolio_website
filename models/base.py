@@ -31,10 +31,16 @@ class BaseModel:
             format(self.__class__.__name__, self.id, self.__dict__)
      
     def save(self):
+        """Method to save object instance to database"""
         from models import storage
+        self.updated_at = datetime.now()
         storage.addingRecord(self)
         storage.savingRecord()
         
+    def delete(self):
+        from models import storage
+        storage.delRecord(self)
+
     def to_dict(self):
         outDict = self.__dict__.copy()
         if '_sa_instance_state' in outDict:
